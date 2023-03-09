@@ -26,12 +26,16 @@ void main() {
       );
     } else if (arguments[0] == 1) {
       final libraryImage = Library.copyCrop(
-        Library.Image.fromBytes(arguments[2], arguments[3], arguments[1],
-            channels: Library.Channels.rgb),
-        arguments[4],
-        arguments[5],
-        arguments[6],
-        arguments[7],
+        Library.Image.fromBytes(
+          width: arguments[2],
+          height: arguments[3],
+          bytes: arguments[1],
+          numChannels: 3,
+        ),
+        x: arguments[4],
+        y: arguments[5],
+        width: arguments[6],
+        height: arguments[7],
       );
       Uint8List _libraryUInt8List;
       if (arguments.length > 8) {

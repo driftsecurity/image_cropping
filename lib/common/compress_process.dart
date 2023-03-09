@@ -39,10 +39,10 @@ class ImageProcess {
       Function(Library.Image, Uint8List) onImageLoaded) async {
     libraryImage = Library.copyCrop(
       libraryImage,
-      imageCropX,
-      imageCropY,
-      imageCropWidth,
-      imageCropHeight,
+      x: imageCropX,
+      y: imageCropY,
+      width: imageCropWidth,
+      height: imageCropHeight,
     );
 
     onImageLoaded.call(

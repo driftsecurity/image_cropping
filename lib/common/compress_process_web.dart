@@ -34,18 +34,17 @@ class ImageProcess {
     imageBytes = Uint8List.fromList(intList);
     onBytesLoaded.call();
     final image = await Image.fromBytes(
-        event.data[1], event.data[2], event.data[3],
-        channels: Channels.rgb);
+      width: event.data[1],
+      height: event.data[2],
+      bytes: event.data[3],
+      numChannels: 3,
+    ); // Channels.rgb = 3
     onLibraryImageLoaded.call(image);
   }
 
   /// Image cropping will be done by crop method
-  void crop(
-      int imageCropX,
-      int imageCropY,
-      int imageCropWidth,
-      int imageCropHeight,
-      Function(Image, Uint8List) onImageLoaded) async {
+  void crop(int imageCropX, int imageCropY, int imageCropWidth,
+      int imageCropHeight, Function(Image, Uint8List) onImageLoaded) async {
     worker.postMessage([
       1,
       libraryImage.getBytes(),
@@ -60,8 +59,13 @@ class ImageProcess {
     ]);
     final event = await worker.onMessage.first;
     onImageLoaded.call(
-        Image.fromBytes(imageCropWidth, imageCropHeight, event.data[0],
-            channels: Channels.rgb),
-        event.data[1]);
+      Image.fromBytes(
+        width: imageCropWidth,
+        height: imageCropHeight,
+        bytes: event.data[0],
+        numChannels: 3,
+      ), // Channels.rgb = 3
+      event.data[1],
+    );
   }
 }

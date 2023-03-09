@@ -121,7 +121,7 @@ class _CroppingButtonState extends State<CroppingButton> {
 
     libraryImage = setWhiteColorInImage(
       libraryImage,
-      widget.colorForWhiteSpace!.value,
+      widget.colorForWhiteSpace!,
       imageWidth,
       imageHeight,
       imageViewWidth,
@@ -162,7 +162,8 @@ class _CroppingButtonState extends State<CroppingButton> {
     } else {
       currentRotationDegreeValue += 90;
     }
-    libraryImage = Library.copyRotate(libraryImage, currentRotationDegreeValue);
+    libraryImage =
+        Library.copyRotate(libraryImage, angle: currentRotationDegreeValue);
     finalImageBytes =
         Uint8List.fromList(Library.encodeJpg(libraryImage, quality: 100));
     _setImageHeightWidth();
@@ -180,7 +181,7 @@ class _CroppingButtonState extends State<CroppingButton> {
   /// [setWhiteColorInImage] we set the background in Library image.
   Library.Image setWhiteColorInImage(
       Library.Image image,
-      int colorForWhiteSpace,
+      Color colorForWhiteSpace,
       double imageWidth,
       double imageHeight,
       double renderedImageWidth,
@@ -205,11 +206,19 @@ class _CroppingButtonState extends State<CroppingButton> {
             (((finalImageHeight * renderedImageHeight) / stackHeight) / 2))
         .toInt();
 
-    var whiteImage =
-        Library.Image(finalImageWidth.toInt(), finalImageHeight.toInt());
-    whiteImage = whiteImage.fill(colorForWhiteSpace);
+    var whiteImage = Library.Image(
+        width: finalImageWidth.toInt(), height: finalImageHeight.toInt());
 
-    var mergedImage = Library.drawImage(whiteImage, image,
+    whiteImage = Library.fill(
+      whiteImage,
+      color: Library.ColorRgb8(
+        colorForWhiteSpace.red,
+        colorForWhiteSpace.green,
+        colorForWhiteSpace.blue,
+      ),
+    );
+
+    var mergedImage = Library.compositeImage(whiteImage, image,
         dstX: centreImageWidthPoint, dstY: centreImageHeightPoint);
     return mergedImage;
   }

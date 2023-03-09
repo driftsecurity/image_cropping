@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as Library;
 
 import 'common/compress_process.dart'
